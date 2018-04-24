@@ -10,7 +10,6 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-
   <script type="text/javascript">
     var app = angular.module('search-strategy', []);
     app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
@@ -128,9 +127,12 @@
     };
   });
   </script>
+  <script src="uploader.directive.js"></script>
+
 
 </head>
 <body ng-controller="relevant">
+  <div uploader></div>
   <div style = "margin:22px">
     <div class="col-md-12"><h4>Initial draft string: {{draftString}}</h4></div>
     <br/>
