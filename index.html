@@ -12,14 +12,17 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   
   <script type="text/javascript">
-  	var app = angular.module('search-strategy', []);
-  	app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
-  		
-  	});
+    var app = angular.module('search-strategy', []);
+    app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
+      $scope.suggested = ["word1", "word2"];
+      $scope.used = [];
+    });
   </script>
 
 </head>
 <body ng-controller="relevant">
-  <div>{{1+1}}</div>
+  <div ng-repeat="keyword in suggested">
+    {{keyword}}
+  </div>
 </body>
 </html>
