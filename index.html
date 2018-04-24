@@ -14,7 +14,7 @@
   <script type="text/javascript">
     var app = angular.module('search-strategy', []);
     app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
-      $scope.baseURL = "http://10.150.250.123";
+      $scope.baseURL = "http://localhost";
       $scope.used = [];
 
       $scope.draftString = "(arctic AND Shrub*)";
