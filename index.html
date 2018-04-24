@@ -14,7 +14,8 @@
   <script type="text/javascript">
     var app = angular.module('search-strategy', []);
     app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
-      $scope.usedKeywords = [];
+      $scope.baseURL = "http://10.150.250.123";
+      $scope.used = [];
 
       $scope.draftString = "(arctic AND Shrub*)";
       $scope.textareaText = $scope.draftString;
@@ -25,17 +26,64 @@
 
       var getUsedKeywords = function(search_strategy){
         if(search_strategy){
-          $http.post("http://localhost:5002/search-parser", search_strategy).then(
+          $http.post($scope.baseURL + ":5002/search-parser", search_strategy).then(
             function(response){
               console.log('usedKeywords>>>', response.data);
-              $scope.usedKeywords = response.data;
+
+              var allUsedWords = response.data;
+
+              $scope.suggested=$scope.originalSuggested;
+              $scope.used=[];
+
+              var originalSuggestedKeyWords = $scope.originalSuggested.map(a => a.keyWord);
+
+
+              // from list of allUsedWords
+              for(var ind in allUsedWords)
+              {
+                var index = originalSuggestedKeyWords.indexOf(allUsedWords[ind]);
+
+                var suggestedKeyWords = $scope.suggested.map(a => a.keyWord);
+                var sIndex = suggestedKeyWords.indexOf(allUsedWords[ind]);
+
+                if(index >= 0)
+                {
+                  // add the element from originalSuggestedKeyWords list to used list if it exists
+                  $scope.used.push($scope.originalSuggested[ind]);
+                }
+                else
+                {
+                  // add the string to used list if it does not exist
+                  $scope.used({keyWord: allUsedWords[ind]});
+                }
+
+                if(sIndex >= 0)
+                {
+                  // remove from suggestedList if it exists
+                  $scope.suggested.splice(sIndex, 1);
+                }
+
+              }
+              for(var ind in originalSuggestedKeyWords)
+              {
+                var index = textAreaKeyWordsArray.indexOf(originalSuggestedKeyWords[ind]);
+
+                if(index >= 0)
+                {
+                  $scope.usedKeywords
+                }
+                else
+                {
+                  $scope.suggested.push($scope.originalSuggested[ind]);
+                }
+              }
             }
           );
         }
       };
       var calculatSearchHits = function(search_strategy, callback){
         if(search_strategy){
-          $http.post("http://localhost:5000/search-count", search_strategy).then(
+          $http.post($scope.baseURL + ":5000/search-count", search_strategy).then(
             function(response){
               var search_counter = response.data;
               search_counter.query = search_strategy;
@@ -47,7 +95,7 @@
       };
       var extractKeywordsFromText = function(text){
         if(text){
-          $http.post("http://localhost:5003/keyword-extraction", text).then(
+          $http.post($scope.baseURL + ":5003/keyword-extraction", text).then(
             function(response){
               var suggested = response.data;
               $scope.suggested = suggested.map(function(suggested_el){
@@ -58,7 +106,8 @@
                 };
               });
               $scope.originalSuggested = $scope.suggested;
-              $scope.evaluateUsedKeywords();
+
+              getUsedKeywords($scope.textareaText);
               // {"pubmed": 222072, "crossref": 1396698}%
             }
           );
@@ -113,12 +162,14 @@
 
       if(newValue[newValue.length -1] == ' ')
       {
-        $scope.evaluateUsedKeywords();
+        $scope.getUsedKeywords($scope.textareaText);
+        // $scope.evaluateUsedKeywords();
       }
     });
 
     $scope.calculateSearchCount = function() {
-      $scope.evaluateUsedKeywords();
+      $scope.getUsedKeywords($scope.textareaText);
+      // $scope.evaluateUsedKeywords();
       calculatSearchHits(
         $scope.textareaText,
         function(err, search_counter){
