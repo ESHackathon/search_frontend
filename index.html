@@ -12,209 +12,168 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 
   <script type="text/javascript">
-    var app = angular.module('search-strategy', []);
-    app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
-      $scope.draftString = '<Show initial draft string here>';
-      $scope.suggested = [{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      },{
-        keyWord: 'word1',
-        score: 0.5, // optional
-        hits: 14810, //optional
-      }];
+  var app = angular.module('search-strategy', []);
+  app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
+    $scope.draftString = '<Show initial draft string here>';
 
-      setTimeout(
-        function(){
-          $scope.suggested[5].keyWord = "key 1244";
-          $scope.$apply();
-        },
-        5000
-      );
-      $scope.hits = [{
-        query: '<Show initial draft string here>',
-        pubmed: 10000,
-        db2: 329131,
-        db3:49019
-      },
+    $scope.suggested=[];
+    for(var i = 0; i<5; i++)
+    {
+      $scope.suggested.push
+      ({
+        keyWord: 'word' + i,
+        score: 0.5, // optional
+        hits: 14810, //optional
+      })
+    }
+
+    $scope.hits = [{
+      query: '<Show initial draft string here>',
+      pubmed: 10000,
+      db2: 329131,
+      db3:49019
+    },
+    {
+      query: '<Show query string here>',
+      pubmed: 10000,
+      db2: 329131,
+      db3:49019
+    },
+    {
+      query: '<Show query string here>',
+      pubmed: 10000,
+      db2: 329131,
+      db3:49019
+    }];
+    $scope.originalSuggested=$scope.suggested;
+    $scope.used = [];
+
+    $scope.evaluateUsedKeywords = function()
+    {
+        var textAreaKeyWordsArray = $scope.textareaText.split(" ");
+
+        $scope.suggested=[];
+        $scope.used=[];
+
+        var originalSuggestedKeyWords = $scope.originalSuggested.map(a => a.keyWord);
+
+        for(var ind in originalSuggestedKeyWords)
+        {
+          var index = textAreaKeyWordsArray.indexOf(originalSuggestedKeyWords[ind]);
+
+          if(index >= 0)
+          {
+            $scope.used.push($scope.originalSuggested[ind]);
+          }
+          else
+          {
+            $scope.suggested.push($scope.originalSuggested[ind]);
+          }
+        }
+    }
+
+    $scope.$watch('textareaText', function (newValue, oldValue) {
+      if(!newValue || !oldValue) return;
+
+      if(newValue[newValue.length -1] == ' ')
       {
-        query: '<Show query string here>',
-        pubmed: 10000,
-        db2: 329131,
-        db3:49019
-      },
-      {
-        query: '<Show query string here>',
-        pubmed: 10000,
-        db2: 329131,
-        db3:49019
-      }];
-      $scope.used = [];
+        $scope.evaluateUsedKeywords();
+        // var textAreaKeyWordsArray = newValue.split(" ");
+        //
+        // $scope.suggested=[];
+        // $scope.used=[];
+        //
+        // var originalSuggestedKeyWords = $scope.originalSuggested.map(a => a.keyWord);
+        //
+        // for(var ind in originalSuggestedKeyWords)
+        // {
+        //   var index = textAreaKeyWordsArray.indexOf(originalSuggestedKeyWords[ind]);
+        //
+        //   if(index >= 0)
+        //   {
+        //     $scope.used.push($scope.originalSuggested[ind]);
+        //   }
+        //   else
+        //   {
+        //     $scope.suggested.push($scope.originalSuggested[ind]);
+        //   }
+        // }
+      }
     });
+
+    $scope.calculateSearchCount = function() {
+      $scope.evaluateUsedKeywords();
+      alert('Insert api call here, get search count for >>>>>>> ' + $scope.textareaText);
+      // $scope.quantityResult = calculateService.calculate($scope.quantity, 10);
+    };
+  });
   </script>
 
 </head>
 <body ng-controller="relevant">
   <div style = "margin:22px">
-    <div class="table-responsive col-md-4" style="max-height: 600px;">
+    <div class="col-md-12"><h4>Initial draft string: {{draftString}}</h4></div>
+    <br/>
+    <br/>
+    <br/>
+    <div class="table-responsive col-md-3" style="max-height: 600px;">
+      <h5>Suggested Unused Keywords<h5>
       <table width="100%" class="table table-bordered">
-       <thead class="bg-primary">
-        <tr>
-         <th ng-repeat="(header, value) in suggested[0]">{{header}}</th>
-        </tr>
-       </thead>
-       <tbody>
-        <tr ng-repeat="row in suggested | filter:searchText">
-         <td ng-repeat="cell in row">{{cell}}</td>
-        </tr>
-       </tbody>
+        <thead class="bg-primary">
+          <tr>
+            <th ng-repeat="(header, value) in suggested[0]">{{header}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in suggested | filter:searchText">
+            <td ng-repeat="cell in row">{{cell}}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    <div class="col-md-8">
-      <textarea rows="8" style="width:100%;">
-      {{draftString}}
-      </textarea>
+    <div class="table-responsive col-md-3" style="max-height: 600px;">
+      <h5>Used Keywords<h5>
       <table width="100%" class="table table-bordered">
-       <thead class="bg-primary">
-        <tr>
-         <th ng-repeat="(header, value) in hits[0]">{{header}}</th>
-        </tr>
-       </thead>
-       <tbody>
-        <tr ng-repeat="row in hits | filter:searchText">
-         <td ng-repeat="cell in row">{{cell}}</td>
-        </tr>
-       </tbody>
+        <thead class="bg-primary">
+          <tr>
+            <th ng-repeat="(header, value) in used[0]">{{header}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in used | filter:searchText">
+            <td ng-repeat="cell in row">{{cell}}</td>
+          </tr>
+        </tbody>
       </table>
+    </div>
+    <div class="col-md-6">
+      <br/>
+      <br/>
+      <div class="col-md-12">
+        <textarea rows="8" style="width:100%;" ng-model="textareaText" data-ng-trim="false">
+          {{draftString}}
+        </textarea>
+        <br/>
+        <br/>
+        <button type="button" class="btn btn-primary" style="width:100%" ng-click="calculateSearchCount()">Get Search Count</button>
+        <br/>
+        <br/>
+      </div>
+
+      <div class="col-md-12">
+        <table width="100%" class="table table-bordered">
+          <thead class="bg-primary">
+            <tr>
+              <th ng-repeat="(header, value) in hits[0]">{{header}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="row in hits | filter:searchText">
+              <td ng-repeat="cell in row">{{cell}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </body>
