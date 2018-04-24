@@ -47,7 +47,7 @@
 
               for(var ind in allUsedWords)
               {
-                $scope.used.push({keyWord: allUsedWords[ind], score: '', hits: ''});
+                $scope.used.push({keyWord: allUsedWords[ind], score: ''});
               }
 
               // for every used keyWord
@@ -108,8 +108,8 @@
               $scope.suggested = suggested.map(function(suggested_el){
                 return {
                   keyWord: suggested_el[0],
-                  score: suggested_el[1], // optional
-                  hits: -1, //optional
+                  score: suggested_el[1].toFixed(2), // optional
+                  // hits: -1, //optional
                 };
               });
               $scope.originalSuggested = JSON.parse(JSON.stringify($scope.suggested));
