@@ -14,7 +14,65 @@
   <script type="text/javascript">
     var app = angular.module('search-strategy', []);
     app.controller('relevant', function($scope, $locale, $location, $http, $filter, $interval) {
-      $scope.draftString = '<Show initial draft string here>';
+      $scope.usedKeywords = [];
+      $scope.hits = [
+        // {
+        //   query: '<Show initial draft string here>',
+        //   pubmed: 10000,
+        //   db2: 329131,
+        //   db3:49019
+        // },
+        // {
+        //   query: '<Show query string here>',
+        //   pubmed: 10000,
+        //   db2: 329131,
+        //   db3:49019
+        // },
+        // {
+        //   query: '<Show query string here>',
+        //   pubmed: 10000,
+        //   db2: 329131,
+        //   db3:49019
+        // }
+      ];
+
+
+
+      var getUsedKeywords = function(search_strategy){
+        if(search_strategy){
+          $http.post("http://localhost:5002/search-parser", search_strategy).then(
+            function(response){
+              $scope.usedKeywords = response.data;
+            }
+          );
+        }
+      };
+      var calculatSearchHits = function(search_strategy, callback){
+        if(search_strategy){
+          $http.post("http://localhost:5000/search-count", search_strategy).then(
+            function(response){
+              var search_counter = response.data;
+              search_counter.query = search_strategy;
+              callback(null, search_counter);
+              // {"pubmed": 222072, "crossref": 1396698}%
+            }
+          );
+        }
+      };
+      $scope.draftString = "(Forest* OR woodland* OR “wood* pasture*” OR “wood* meadow*”) AND (Boreal OR boreonemoral OR hemiboreal OR nemoral OR temperate OR conifer* OR deciduous OR broadlea* OR “mixed forest” OR spruce OR “Scots pine” OR birch OR aspen OR beech OR “Quercus robur” OR Swed*) AND (Graz* OR brows* OR fenc* OR exclos*) AND (*Diversity OR species AND (richness OR focal OR target OR keystone OR umbrella OR red-list* OR threatened OR endangered OR rare) OR “species density” OR “number of species” OR indicator* OR abundance OR habitat*)";
+
+
+      // Once on load
+      getUsedKeywords($scope.draftString);
+      calculatSearchHits(
+        $scope.draftString,
+        function(err, search_counter){
+          $scope.hits.push(search_counter);
+          console.log($scope.hits);
+        }
+      );
+
+
       $scope.suggested = [{
         keyWord: 'word1',
         score: 0.5, // optional
@@ -160,25 +218,6 @@
         },
         5000
       );
-      $scope.hits = [{
-        query: '<Show initial draft string here>',
-        pubmed: 10000,
-        db2: 329131,
-        db3:49019
-      },
-      {
-        query: '<Show query string here>',
-        pubmed: 10000,
-        db2: 329131,
-        db3:49019
-      },
-      {
-        query: '<Show query string here>',
-        pubmed: 10000,
-        db2: 329131,
-        db3:49019
-      }];
-      $scope.used = [];
     });
   </script>
 
