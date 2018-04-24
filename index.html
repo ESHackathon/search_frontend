@@ -54,7 +54,7 @@
                 else
                 {
                   // add the string to used list if it does not exist
-                  $scope.used({keyWord: allUsedWords[ind]});
+                  $scope.used.push({keyWord: allUsedWords[ind]});
                 }
 
                 if(sIndex >= 0)
@@ -64,19 +64,19 @@
                 }
 
               }
-              for(var ind in originalSuggestedKeyWords)
-              {
-                var index = textAreaKeyWordsArray.indexOf(originalSuggestedKeyWords[ind]);
+              // for(var ind in originalSuggestedKeyWords)
+              // {
+              //   var index = textAreaKeyWordsArray.indexOf(originalSuggestedKeyWords[ind]);
 
-                if(index >= 0)
-                {
-                  $scope.usedKeywords
-                }
-                else
-                {
-                  $scope.suggested.push($scope.originalSuggested[ind]);
-                }
-              }
+              //   if(index >= 0)
+              //   {
+              //     $scope.usedKeywords
+              //   }
+              //   else
+              //   {
+              //     $scope.suggested.push($scope.originalSuggested[ind]);
+              //   }
+              // }
             }
           );
         }
@@ -107,7 +107,7 @@
               });
               $scope.originalSuggested = $scope.suggested;
 
-              getUsedKeywords($scope.textareaText);
+              // getUsedKeywords($scope.textareaText);
               // {"pubmed": 222072, "crossref": 1396698}%
             }
           );
