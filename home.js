@@ -19,3 +19,17 @@ app.directive("home", ['$http', function($http) {
         }
     };
 }]);
+
+function loadFileAsText(){
+  var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+  var fileReader = new FileReader();
+  fileReader.onload = function(fileLoadedEvent){
+      var textFromFileLoaded = fileLoadedEvent.target.result;
+
+      console.log('textFromFileLoaded>>>>>', textFromFileLoaded);
+      document.getElementById("textA").value = textFromFileLoaded;
+  };
+
+  fileReader.readAsText(fileToLoad, "UTF-8");
+}
