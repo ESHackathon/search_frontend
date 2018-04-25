@@ -19,10 +19,12 @@ var app = angular.module('search-strategy', []);
       var lastRequestTime = 0;
       var getUsedKeywords = function(search_strategy)
       {
-
         // if((new Date() - lastRequestTime) < 5000) return;
         lastRequestTime = new Date();
         if(search_strategy){
+
+          if(search_strategy[0] != '(') search_strategy = '(' + search_strategy;
+          if(search_strategy[search_strategy.length - 1] != ')') search_strategy + ')';
           $http.post($scope.baseURL + ":5002/search-parser", search_strategy).then(
             function(response){
               $scope.suggested = JSON.parse(JSON.stringify($scope.originalSuggested));
@@ -31,7 +33,6 @@ var app = angular.module('search-strategy', []);
               var allUsedWords = response.data;
               // var wordsAddedToUsed = [];
               // var unlistedUsedWords = [];
-
 
 
               for(var ind in allUsedWords)
@@ -128,7 +129,7 @@ var app = angular.module('search-strategy', []);
 
 
 
-    $scope.$watch('textareaText', function (newValue, oldValue) {
+    $scope.$watch('textareaText.selected', function (newValue, oldValue) {
       if(!newValue || !oldValue) return;
 
       if(newValue.length != oldValue.length)
