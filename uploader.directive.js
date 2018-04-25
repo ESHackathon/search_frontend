@@ -16,6 +16,7 @@ app.directive("uploader", ['$http', function($http) {
                   document.getElementById("textA").value = textFromFileLoaded;
                   console.log('textFromFileLoaded>>>>>', textFromFileLoaded);
                   // scope.text.selected = textFromFileLoaded;
+                  //$scope.$apply();
               };
 
               fileReader.readAsText(fileToLoad, "UTF-8");

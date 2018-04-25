@@ -23,10 +23,9 @@ app.directive("home", ['$http', function($http) {
               console.log('get_title_abstract>>>', text);
 
               scope.extractKeywordsFromText(text);
-              scope.textareaText = {"selected": scope.draftString};
               scope.view.selected = "strategy";
               scope.calculateSearchHits(
-                scope.draftString.selected,
+                scope.textareaText.selected,
                 function(err, search_counter){
                   scope.hits.push(search_counter);
                 }
