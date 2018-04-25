@@ -37,7 +37,7 @@ var app = angular.module('search-strategy', []);
 
               for(var ind in allUsedWords)
               {
-                $scope.used.push({keyWord: allUsedWords[ind], score: ''});
+                $scope.used.push({keyWord: allUsedWords[ind]});
               }
 
               // for every used keyWord
@@ -55,24 +55,25 @@ var app = angular.module('search-strategy', []);
                   }
                 }
 
-                for(var j in $scope.originalSuggested)
-                {
-                  var used = $scope.used.map(a => a.keyWord);
-
-                  if($scope.originalSuggested[j].keyWord.toLowerCase().search(word.toLowerCase()) >= 0)
-                  {
-                    var index = used.indexOf(word);
-                    // console.log('word>>>', word, index);
-                    if(index < 0)
-                    {
-                      $scope.used.push($scope.originalSuggested[j]);
-                    }
-                    else
-                    {
-                      $scope.used[index] = $scope.originalSuggested[j];
-                    }
-                  }
-                }
+                // FIXME: uncomment this to include scoring
+                // for(var j in $scope.originalSuggested)
+                // {
+                //   var used = $scope.used.map(a => a.keyWord);
+                //
+                //   if($scope.originalSuggested[j].keyWord.toLowerCase().search(word.toLowerCase()) >= 0)
+                //   {
+                //     var index = used.indexOf(word);
+                //     // console.log('word>>>', word, index);
+                //     if(index < 0)
+                //     {
+                //       $scope.used.push($scope.originalSuggested[j]);
+                //     }
+                //     else
+                //     {
+                //       $scope.used[index] = $scope.originalSuggested[j];
+                //     }
+                //   }
+                // }
               }
             }
           );
