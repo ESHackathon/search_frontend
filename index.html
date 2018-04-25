@@ -25,64 +25,97 @@
     <br/>
     <div class="table-responsive col-md-3" style="max-height: 600px;">
       <h5>Suggested Unused Keywords<h5>
-      <table width="100%" class="table table-bordered">
-        <thead class="bg-primary">
-          <tr>
-            <th ng-repeat="(header, value) in suggested[0]">{{header}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="row in suggested | filter:searchText">
-            <td ng-repeat="cell in row">{{cell}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="table-responsive col-md-3" style="max-height: 600px;">
-      <h5>Used Keywords<h5>
-      <table width="100%" class="table table-bordered">
-        <thead class="bg-primary">
-          <tr>
-            <th ng-repeat="(header, value) in used[0]">{{header}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="row in used | filter:searchText">
-            <td ng-repeat="cell in row">{{cell}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-md-6">
-      <br/>
-      <br/>
-      <div class="col-md-12">
-        <textarea rows="8" style="width:100%;" ng-model="textareaText" data-ng-trim="false">
-          {{draftString}}
-        </textarea>
-        <br/>
-        <br/>
-        <button type="button" class="btn btn-primary" style="width:100%" ng-click="calculateSearchCount()">Get Search Count</button>
-        <div ng-show="loading" class="loading" ><img src="loading.gif" height="120px" style="display: block;margin-left: auto;margin-right: auto;"></div>
-        <br/>
-        <br/>
-      </div>
-
-      <div class="col-md-12">
         <table width="100%" class="table table-bordered">
           <thead class="bg-primary">
             <tr>
-              <th ng-repeat="(header, value) in hits[0]">{{header}}</th>
+              <th ng-repeat="(header, value) in suggested[0]">{{header}}</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="row in hits | filter:searchText">
+            <tr ng-repeat="row in suggested | filter:searchText">
               <td ng-repeat="cell in row">{{cell}}</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
-</body>
-</html>
+      <div class="table-responsive col-md-3" style="max-height: 600px;">
+        <h5>Used Keywords<h5>
+          <table width="100%" class="table table-bordered">
+            <thead class="bg-primary">
+              <tr>
+                <th ng-repeat="(header, value) in used[0]">{{header}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in used | filter:searchText">
+                <td ng-repeat="cell in row">{{cell}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <br/>
+          <br/>
+          <div class="col-md-8">
+            <textarea rows="2" style="width:100%;" ng-model="quickLookupText" placeholder="Quick hit count lookup" data-ng-trim="false">
+              {{draftString}}
+            </textarea>
+          </div>
+          <div class="col-md-1">
+            <div ng-show="quickLookuploading" class="loading" ><img src="loading.gif" style="height: 44px;width: 66px;"></div>
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-primary" style="width:100%" ng-click="calculateQuickHitCount()">Hit Count Lookup</button>
+          </div>
+          <br/>
+          <br/>
+
+          <div class="col-md-12">
+            <table width="100%" class="table table-bordered">
+              <thead class="bg-primary">
+                <tr>
+                  <th ng-repeat="(header, value) in quickHits[0]">{{header}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in quickHits | filter:searchText">
+                  <td ng-repeat="cell in row">{{cell}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-12">
+            <textarea rows="8" style="width:100%;" ng-model="textareaText" placeholder="Insert query strategy here" data-ng-trim="false">
+              {{draftString}}
+            </textarea>
+          </div>
+          <div class="col-md-2">
+            <div ng-show="loading" class="loading" ><img src="loading.gif" height="120px" style="height: 44px;width: 66px;"></div>
+          </div>
+          <div class="col-md-10">
+            <button type="button" class="btn btn-primary" style="width:100%" ng-click="calculateSearchCount()">Get Search Count</button>
+            <br/>
+            <br/>
+          </div>
+          <br/>
+          <br/>
+
+          <div class="col-md-12">
+            <table width="100%" class="table table-bordered">
+              <thead class="bg-primary">
+                <tr>
+                  <th ng-repeat="(header, value) in hits[0]">{{header}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in hits | filter:searchText">
+                  <td ng-repeat="cell in row">{{cell}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </body>
+    </html>
