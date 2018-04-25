@@ -3,24 +3,24 @@ app.directive("uploader", ['$http', function($http) {
     return {
         restrict : "A",
         templateUrl: 'uploader.html',
+        scope: false,
         link: function(scope) {
             scope.uploadFile = function(input_file) {
 
+            
+              var fileToLoad = input_file.files[0];
+              var fileReader = new FileReader();
+              fileReader.onload = function(fileLoadedEvent){
+                  var textFromFileLoaded = fileLoadedEvent.target.result;
 
-                fd = new FormData();
-                fd.append("upload", input_file.files[0]);
-                $http.post('http://localhost:5000/upload-ris', fd, {
-                  headers: {
-                    'Content-Type': undefined
-                  },
-                  transformRequest: angular.identity
-                }).then(function(data) {
-                  console.log(data);
-                }, function(data) {
-                  return console.log(data);
-                });
+                  console.log('textFromFileLoaded>>>>>', textFromFileLoaded);
+                  scope.text.selected = textFromFileLoaded;
+              };
 
+              fileReader.readAsText(fileToLoad, "UTF-8");
             }
+
+
         }
     };
 }]);
