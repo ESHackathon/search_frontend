@@ -6,17 +6,12 @@ app.directive("uploader", ['$http', function($http) {
         scope: false,
         link: function(scope) {
             scope.uploadFile = function(input_file) {
-
-
               var fileToLoad = input_file.files[0];
               var fileReader = new FileReader();
               fileReader.onload = function(fileLoadedEvent){
                   var textFromFileLoaded = fileLoadedEvent.target.result;
-
-                  document.getElementById("textA").value = textFromFileLoaded;
-                  console.log('textFromFileLoaded>>>>>', textFromFileLoaded);
-                  // scope.text.selected = textFromFileLoaded;
-                  //$scope.$apply();
+                  scope.text.selected = textFromFileLoaded;
+                  scope.$apply();
               };
 
               fileReader.readAsText(fileToLoad, "UTF-8");

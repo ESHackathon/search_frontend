@@ -6,6 +6,8 @@ var app = angular.module('search-strategy', []);
       $scope.draftString = {"selected": ""};
       $scope.textareaText = {"selected": $scope.draftString.selected};
       $scope.quickLookupText = {"selected": ""};
+      $scope.text = {}
+
 
       $scope.quickHits = [];
       $scope.hits = [];

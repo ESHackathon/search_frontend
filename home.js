@@ -8,7 +8,7 @@ app.directive("home", ['$http', function($http) {
             scope.start = function() {
               var text = '';
 
-              if(!document.getElementById("textA").value)
+              if(!scope.text.selected)
               {
                 alert('RIS file required');
                 return;
@@ -20,8 +20,8 @@ app.directive("home", ['$http', function($http) {
                 return;
               }
 
-              var json = get_title_abstract(document.getElementById("textA").value);
-              // var json = get_title_abstract(scope.text.selected);
+              //var json = get_title_abstract(document.getElementById("textA").value);
+              var json = get_title_abstract(scope.text.selected);
               for(var ind in json)
               {
                 var arrElem = json[ind];
