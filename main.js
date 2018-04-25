@@ -3,7 +3,7 @@ var app = angular.module('search-strategy', []);
       $scope.baseURL = "http://localhost";
       $scope.used = [];
       $scope.view = {"selected": "home"};
-      $scope.draftString = {"selected": "(arctic AND Shrub*)"};
+      $scope.draftString = {"selected": ""};
       $scope.textareaText = {"selected": $scope.draftString.selected};
       $scope.quickLookupText = {"selected": ""};
 

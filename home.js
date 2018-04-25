@@ -8,7 +8,18 @@ app.directive("home", ['$http', function($http) {
             scope.start = function() {
               var text = '';
 
-              console.log('>>>>>', document.getElementById("textA").value);
+              if(!document.getElementById("textA").value)
+              {
+                alert('RIS file required');
+                return;
+              }
+
+              if(!scope.textareaText.selected)
+              {
+                alert('Search startegy required');
+                return;
+              }
+
               var json = get_title_abstract(document.getElementById("textA").value);
               // var json = get_title_abstract(scope.text.selected);
               for(var ind in json)
