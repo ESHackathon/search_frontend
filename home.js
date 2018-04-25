@@ -6,7 +6,23 @@ app.directive("home", ['$http', function($http) {
         scope: false,
         link: function(scope) {
             scope.start = function() {
-              scope.extractKeywordsFromText(scope.text.selected);
+              var text = '';
+
+              console.log('>>>>>', document.getElementById("textA").value);
+              var json = get_title_abstract(document.getElementById("textA").value);
+              // var json = get_title_abstract(scope.text.selected);
+              for(var ind in json)
+              {
+                var arrElem = json[ind];
+                for(var jInd in arrElem)
+                {
+                  text+=arrElem[jInd];
+                }
+              }
+
+              console.log('get_title_abstract>>>', text);
+
+              scope.extractKeywordsFromText(text);
               scope.textareaText = {"selected": scope.draftString};
               scope.view.selected = "strategy";
               scope.calculateSearchHits(
