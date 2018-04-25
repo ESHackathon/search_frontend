@@ -59,6 +59,42 @@
         </table>
       </div>
       <div class="col-md-6">
+
+
+
+      <div class="col-md-8">
+           <textarea rows="2" style="width:100%;" ng-model="quickLookupText.selected" placeholder="Quick hit count lookup" data-ng-trim="false">
+             {{draftString.selected}}
+           </textarea>
+         </div>
+         <div class="col-md-1">
+           <div ng-show="quickLookuploading" class="loading" ><img src="loading.gif" style="height: 44px;width: 66px;"></div>
+         </div>
+         <div class="col-md-3">
+           <button type="button" class="btn btn-primary" style="width:100%" ng-click="calculateQuickHitCount()">Hit Count Lookup</button>
+         </div>
+         <br/>
+         <br/>
+
+         <div class="col-md-12">
+           <table width="100%" class="table table-bordered">
+             <thead class="bg-primary">
+               <tr>
+                 <th ng-repeat="(header, value) in quickHits[0]">{{header}}</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr ng-repeat="row in quickHits | filter:searchText">
+                 <td ng-repeat="cell in row">{{cell}}</td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+
+
+
+
+
         <br/>
         <br/>
         <div class="col-md-12">

@@ -5,7 +5,9 @@ var app = angular.module('search-strategy', []);
       $scope.view = {"selected": "home"};
       $scope.draftString = {"selected": "(arctic AND Shrub*)"};
       $scope.textareaText = {"selected": $scope.draftString.selected};
+      $scope.quickLookupText = {"selected": ""};
 
+      $scope.quickHits = [];
       $scope.hits = [];
       $scope.suggested = [];
       $scope.originalSuggested=[];
@@ -126,31 +128,6 @@ var app = angular.module('search-strategy', []);
 
 
 
-
-    //   $scope.evaluateUsedKeywords = function()
-    // {
-    //     var textAreaKeyWordsArray = $scope.textareaText.selected.split(" ");
-    //
-    //     $scope.suggested=[];
-    //     $scope.used=[];
-    //
-    //     var originalSuggestedKeyWords = $scope.originalSuggested.map(a => a.keyWord);
-    //
-    //     for(var ind in originalSuggestedKeyWords)
-    //     {
-    //       var index = textAreaKeyWordsArray.indexOf(originalSuggestedKeyWords[ind]);
-    //
-    //       if(index >= 0)
-    //       {
-    //         $scope.used.push($scope.originalSuggested[ind]);
-    //       }
-    //       else
-    //       {
-    //         $scope.suggested.push($scope.originalSuggested[ind]);
-    //       }
-    //     }
-    // };
-
     $scope.$watch('textareaText', function (newValue, oldValue) {
       if(!newValue || !oldValue) return;
 
@@ -160,6 +137,18 @@ var app = angular.module('search-strategy', []);
         // $scope.evaluateUsedKeywords();
       }
     });
+
+    $scope.calculateQuickHitCount = function() {
+      $scope.quickHits = [];
+      $scope.quickLookuploading = true;
+      $scope.calculateSearchHits(
+        $scope.quickLookupText.selected,
+        function(err, search_counter){
+          $scope.quickHits.push(search_counter);
+          $scope.quickLookuploading = false;
+        }
+      );
+    };
 
     $scope.calculateSearchCount = function() {
       getUsedKeywords($scope.textareaText.selected);
